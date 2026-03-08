@@ -47,7 +47,7 @@ onMounted(() => {
       { key: 'pi', label: 'Pi', profile: 'pi.sb', command: 'pi', logo: 'https://pi.dev/logo.svg', on: false },
       { key: 'cursor-agent', label: 'Cursor Agent', profile: 'cursor-agent.sb', command: 'cursor-agent', logo: 'https://github.com/cursor.png?size=256', on: false },
       { key: 'cline', label: 'Cline', profile: 'cline.sb', command: 'cline', logo: 'https://github.com/cline.png?size=256', on: false },
-      { key: 'kilo-code', label: 'Kilo Code', profile: 'kilo-code.sb', command: 'kilo', logo: 'https://raw.githubusercontent.com/Kilo-Org/kilocode/main/src/assets/icons/kilo-dark.png', on: false },
+      { key: 'kilo-code', label: 'Kilo Code', profile: 'kilo-code.sb', command: 'kilo', logo: '/agent-logos/kilo-code.svg', on: false },
       { key: 'droid', label: 'Droid', profile: 'droid.sb', command: 'droid', logo: 'https://github.com/Factory-AI.png?size=256', on: false },
     ]
 
