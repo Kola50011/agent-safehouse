@@ -682,6 +682,7 @@ emit_embedded_policy_template() {
 
 (allow file-read*
     (home-prefix "/.gitconfig")    ;; User gitconfig and variants (.gitconfig.local, etc.) read by git CLI.
+    (home-prefix "/.gitignore")    ;; User global gitignore variants (.gitignore, .gitignore_global, etc.).
     (home-subpath "/.config/git")  ;; XDG-style git config directory (config, ignore, attributes).
     (home-literal "/.gitattributes")  ;; Global gitattributes file.
     (home-literal "/.ssh")         ;; Directory traversal for default SSH metadata grants used by git-over-ssh.
