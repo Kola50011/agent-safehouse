@@ -4,8 +4,8 @@
 
 | Flag | Description |
 |------|-------------|
-| `--add-dirs=PATHS` | Colon-separated paths to grant read/write |
-| `--add-dirs-ro=PATHS` | Colon-separated paths to grant read-only |
+| `--add-dirs=PATHS` | Colon-separated file/directory paths to grant read/write |
+| `--add-dirs-ro=PATHS` | Colon-separated file/directory paths to grant read-only |
 | `--workdir=DIR` | Main directory to grant read/write (`--workdir=` disables automatic workdir grants) |
 | `--trust-workdir-config` | Trust and load `<workdir>/.safehouse` (`--trust-workdir-config=BOOL` also supported) |
 | `--append-profile=PATH` | Append sandbox profile file after generated rules (repeatable) |
@@ -31,6 +31,7 @@
 - `cloud-credentials`
 - `browser-native-messaging`
 - `shell-init`
+- `process-debug`
 - `all-agents`
 - `all-apps`
 - `wide-read`

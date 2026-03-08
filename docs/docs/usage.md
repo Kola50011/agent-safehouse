@@ -12,6 +12,9 @@ safehouse --add-dirs=/tmp/scratch:/data/shared -- claude --dangerously-skip-perm
 # Grant read-only reference directories
 safehouse --add-dirs-ro=/repos/shared-lib -- aider
 
+# Grant a single read-only file (for example a global gitignore)
+safehouse --add-dirs-ro=~/.gitignore -- claude --dangerously-skip-permissions
+
 # Append custom policy rules (loaded last)
 safehouse --append-profile=/path/to/local-overrides.sb -- claude --dangerously-skip-permissions
 
@@ -59,6 +62,9 @@ safehouse --enable=shell-init -- claude --dangerously-skip-permissions
 
 # Browser native messaging integration
 safehouse --enable=browser-native-messaging -- codex
+
+# Host process inspection/signalling for local debugging
+safehouse --enable=process-debug -- claude --dangerously-skip-permissions
 
 # Broad read-only visibility across /
 safehouse --enable=wide-read -- claude --dangerously-skip-permissions

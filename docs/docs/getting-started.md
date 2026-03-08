@@ -11,14 +11,21 @@ chmod +x ~/.local/bin/safehouse
 
 ## Optional Local Overrides
 
-Create a local profile file that is appended last (for machine-specific exceptions):
+For single files, prefer a direct path grant instead of an appended profile:
+
+```bash
+safehouse --add-dirs-ro=~/.gitignore -- claude --dangerously-skip-permissions
+```
+
+Create a local profile file only for recurring machine-specific exceptions:
 
 ```bash
 mkdir -p ~/.config/agent-safehouse
 cat > ~/.config/agent-safehouse/local-overrides.sb <<'EOF2'
 ;; Local user overrides
 (allow file-read*
-  (home-literal "/.gitignore_global")
+  (home-literal "/.lldbinit")
+  (home-subpath "/Library/Application Support/CleanShot/media")
 )
 EOF2
 ```
