@@ -14,18 +14,41 @@ Agent Safehouse is a macOS sandbox toolkit for LLM coding agents built with Bash
 
 ## Use Local Binary During Development
 
-To ensure you test your local changes (not an installed `safehouse` on PATH), add a shell override in `~/.zshrc`:
+To ensure you test your local changes (not an installed `safehouse` on PATH), add a shell override in your shell config:
+
+POSIX shells (`zsh` / `bash`):
 
 ```bash
+# ~/.zshrc or ~/.bashrc
 # Agent Safehouse local dev override
 export AGENT_SAFEHOUSE_REPO="$HOME/server/agent-safehouse"
 safehouse() { "$AGENT_SAFEHOUSE_REPO/bin/safehouse.sh" "$@"; }
 ```
 
+`fish`:
+
+```fish
+# ~/.config/fish/config.fish
+set -gx AGENT_SAFEHOUSE_REPO "$HOME/server/agent-safehouse"
+
+function safehouse
+    "$AGENT_SAFEHOUSE_REPO/bin/safehouse.sh" $argv
+end
+```
+
 Then reload your shell:
 
+POSIX shells (`zsh` / `bash`):
+
 ```bash
-source ~/.zshrc
+source ~/.zshrc   # or ~/.bashrc
+type -a safehouse
+```
+
+`fish`:
+
+```fish
+source ~/.config/fish/config.fish
 type -a safehouse
 ```
 

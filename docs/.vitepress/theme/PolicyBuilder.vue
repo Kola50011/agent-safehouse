@@ -36,19 +36,19 @@ onMounted(() => {
     })
 
     var AGENTS = [
-      { key: 'claude-code', label: 'Claude Code', profile: 'claude-code.sb', command: 'claude --dangerously-skip-permissions', logo: 'https://github.com/anthropics.png?size=256', on: true },
-      { key: 'codex', label: 'Codex', profile: 'codex.sb', command: 'codex --dangerously-bypass-approvals-and-sandbox', logo: 'https://github.com/openai.png?size=256', on: true },
-      { key: 'opencode', label: 'OpenCode', profile: 'opencode.sb', command: 'OPENCODE_PERMISSION=\'{"*":"allow"}\' opencode', logo: 'https://github.com/opencode-ai.png?size=256', on: true },
-      { key: 'amp', label: 'Amp', profile: 'amp.sb', command: 'amp --dangerously-allow-all', logo: 'https://github.com/ampcode-com.png?size=256', on: false },
-      { key: 'gemini', label: 'Gemini CLI', profile: 'gemini.sb', command: 'NO_BROWSER=true gemini --yolo', logo: 'https://geminicli.com/icon.png', on: false },
-      { key: 'aider', label: 'Aider', profile: 'aider.sb', command: 'aider', logo: 'https://github.com/Aider-AI.png?size=256', on: false },
-      { key: 'goose', label: 'Goose', profile: 'goose.sb', command: 'goose', logo: 'https://block.github.io/goose/img/logo_dark.png', on: false },
-      { key: 'auggie', label: 'Auggie', profile: 'auggie.sb', command: 'auggie', logo: 'https://www.augmentcode.com/favicon.svg', on: false },
-      { key: 'pi', label: 'Pi', profile: 'pi.sb', command: 'pi', logo: 'https://pi.dev/logo.svg', on: false },
-      { key: 'cursor-agent', label: 'Cursor Agent', profile: 'cursor-agent.sb', command: 'cursor-agent', logo: 'https://github.com/cursor.png?size=256', on: false },
-      { key: 'cline', label: 'Cline', profile: 'cline.sb', command: 'cline', logo: 'https://github.com/cline.png?size=256', on: false },
-      { key: 'kilo-code', label: 'Kilo Code', profile: 'kilo-code.sb', command: 'kilo', logo: '/agent-logos/kilo-code.svg', on: false },
-      { key: 'droid', label: 'Droid', profile: 'droid.sb', command: 'droid', logo: 'https://github.com/Factory-AI.png?size=256', on: false },
+      { key: 'claude-code', label: 'Claude Code', profile: 'claude-code.sb', command: 'claude --dangerously-skip-permissions', shellCommand: 'claude --dangerously-skip-permissions', shortcut: 'claude', logo: 'https://github.com/anthropics.png?size=256', on: true },
+      { key: 'codex', label: 'Codex', profile: 'codex.sb', command: 'codex --dangerously-bypass-approvals-and-sandbox', shellCommand: 'codex --dangerously-bypass-approvals-and-sandbox', shortcut: 'codex', logo: 'https://github.com/openai.png?size=256', on: true },
+      { key: 'opencode', label: 'OpenCode', profile: 'opencode.sb', command: 'OPENCODE_PERMISSION=\'{"*":"allow"}\' opencode', shellCommand: 'opencode', shellEnvPosix: 'OPENCODE_PERMISSION=\'{"*":"allow"}\'', shellEnvFishName: 'OPENCODE_PERMISSION', shellEnvFishValue: '{"*":"allow"}', shortcut: 'opencode', logo: 'https://github.com/opencode-ai.png?size=256', on: true },
+      { key: 'amp', label: 'Amp', profile: 'amp.sb', command: 'amp --dangerously-allow-all', shellCommand: 'amp --dangerously-allow-all', shortcut: 'amp', logo: 'https://github.com/ampcode-com.png?size=256', on: false },
+      { key: 'gemini', label: 'Gemini CLI', profile: 'gemini.sb', command: 'NO_BROWSER=true gemini --yolo', shellCommand: 'gemini --yolo', shellEnvPosix: 'NO_BROWSER=true', shellEnvFishName: 'NO_BROWSER', shellEnvFishValue: 'true', shortcut: 'gemini', logo: 'https://geminicli.com/icon.png', on: false },
+      { key: 'aider', label: 'Aider', profile: 'aider.sb', command: 'aider', shellCommand: 'aider', shortcut: 'aider', logo: 'https://github.com/Aider-AI.png?size=256', on: false },
+      { key: 'goose', label: 'Goose', profile: 'goose.sb', command: 'goose', shellCommand: 'goose', shortcut: 'goose', logo: 'https://block.github.io/goose/img/logo_dark.png', on: false },
+      { key: 'auggie', label: 'Auggie', profile: 'auggie.sb', command: 'auggie', shellCommand: 'auggie', shortcut: 'auggie', logo: 'https://www.augmentcode.com/favicon.svg', on: false },
+      { key: 'pi', label: 'Pi', profile: 'pi.sb', command: 'pi', shellCommand: 'pi', shortcut: 'pi', logo: 'https://pi.dev/logo.svg', on: false },
+      { key: 'cursor-agent', label: 'Cursor Agent', profile: 'cursor-agent.sb', command: 'cursor-agent', shellCommand: 'cursor-agent', shortcut: 'cursor-agent', logo: 'https://github.com/cursor.png?size=256', on: false },
+      { key: 'cline', label: 'Cline', profile: 'cline.sb', command: 'cline', shellCommand: 'cline', shortcut: 'cline', logo: 'https://github.com/cline.png?size=256', on: false },
+      { key: 'kilo-code', label: 'Kilo Code', profile: 'kilo-code.sb', command: 'kilo', shellCommand: 'kilo', shortcut: 'kilo', logo: '/agent-logos/kilo-code.svg', on: false },
+      { key: 'droid', label: 'Droid', profile: 'droid.sb', command: 'droid', shellCommand: 'droid', shortcut: 'droid', logo: 'https://github.com/Factory-AI.png?size=256', on: false },
     ]
 
     var TOOLCHAINS = [
@@ -65,6 +65,11 @@ onMounted(() => {
       { key: 'php', label: 'PHP', profile: 'php.sb', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg', on: false },
     ]
 
+    var SHELL_OPTIONS = [
+      { key: 'posix', label: 'zsh / bash', config: '~/.zshrc or ~/.bashrc' },
+      { key: 'fish', label: 'fish', config: '~/.config/fish/config.fish' },
+    ]
+
     var INTEGRATIONS = [
       { key: 'container-runtime-default-deny', label: 'Container runtime deny', path: 'profiles/50-integrations-core/container-runtime-default-deny.sb', group: 'default', glyph: '\u26D4', on: true, locked: true },
       { key: 'git', label: 'Git', path: 'profiles/50-integrations-core/git.sb', group: 'default', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg', on: true, locked: true },
@@ -79,7 +84,7 @@ onMounted(() => {
       { key: 'env', label: 'Runtime env pass-through (--env)', group: 'extra', feature: 'env', glyph: '\uD83D\uDD13', on: false, desc: 'Use safehouse --env for full env pass-through (runtime-only; no SB policy changes). Prefer --env-pass=NAME1,NAME2 for least-privilege API key forwarding.' },
       { key: 'kubectl', label: 'kubectl', path: 'profiles/55-integrations-optional/kubectl.sb', group: 'extra', feature: 'kubectl', glyph: '\u2638', on: false },
       { key: 'macos-gui', label: 'macOS GUI', path: 'profiles/55-integrations-optional/macos-gui.sb', group: 'extra', feature: 'macosGui', glyph: '\uF8FF', on: false },
-      { key: 'shell-init', label: 'Shell init files', path: 'profiles/55-integrations-optional/shell-init.sb', group: 'extra', feature: 'shellStartup', glyph: '\uD83D\uDDC2', on: false, desc: 'Allow reading ~/.zsh* and /private/etc shell startup files.' },
+      { key: 'shell-init', label: 'Shell init files', path: 'profiles/55-integrations-optional/shell-init.sb', group: 'extra', feature: 'shellStartup', glyph: '\uD83D\uDDC2', on: false, desc: 'Allow reading zsh and fish startup files under ~/.zsh*, ~/.config/fish, and /private/etc.' },
       { key: 'spotlight', label: 'Spotlight', path: 'profiles/55-integrations-optional/spotlight.sb', group: 'extra', feature: 'spotlight', glyph: '\uD83D\uDD0E', on: false },
       { key: 'ssh', label: 'SSH', path: 'profiles/55-integrations-optional/ssh.sb', group: 'extra', feature: 'ssh', glyph: '>_', on: false },
       { key: 'wide-read', label: 'Access entire file system (read-only)', group: 'extra', feature: 'wideRead', glyph: '\uD83D\uDC41', on: false },
@@ -115,14 +120,18 @@ onMounted(() => {
       rwFeedback: document.getElementById('pb-rw-feedback')!,
       append: document.getElementById('pb-append-profile') as HTMLTextAreaElement,
       appendFeedback: document.getElementById('pb-append-feedback')!,
+      shellType: document.getElementById('pb-shell-type') as HTMLSelectElement,
+      shellFeedback: document.getElementById('pb-shell-feedback')!,
       summaryAgents: document.getElementById('pb-summary-agents')!,
       summaryIntegrations: document.getElementById('pb-summary-integrations')!,
       summaryPaths: document.getElementById('pb-summary-paths')!,
       summaryIssues: document.getElementById('pb-summary-issues')!,
       summaryCommand: document.getElementById('pb-summary-command')!,
+      summaryShell: document.getElementById('pb-summary-shell')!,
       status: document.getElementById('pb-status')!,
       moduleCount: document.getElementById('pb-module-count')!,
       command: document.getElementById('pb-command-output')!,
+      shellOutput: document.getElementById('pb-shell-output')!,
       policy: document.getElementById('pb-policy-output')!,
       gen: document.getElementById('pb-generate') as HTMLButtonElement,
       copy: document.getElementById('pb-copy') as HTMLButtonElement,
@@ -144,6 +153,7 @@ onMounted(() => {
     }
 
     function esc(v: string) { return String(v || '').replace(/\\/g, '\\\\').replace(/"/g, '\\"') }
+    function shellSingleQuote(v: string) { return "'" + String(v || '').replace(/'/g, "'\"'\"'") + "'" }
 
     function norm(raw: string, home: string) {
       var p = String(raw || '').trim()
@@ -178,6 +188,54 @@ onMounted(() => {
         out.push(p)
       })
       return { values: out, errors: errors, normalized: normalized, duplicateCount: duplicateCount }
+    }
+
+    function shellTypeValue(raw: string) {
+      return raw === 'fish' ? 'fish' : 'posix'
+    }
+
+    function shellOption(shellType: string) {
+      return shellType === 'fish' ? SHELL_OPTIONS[1] : SHELL_OPTIONS[0]
+    }
+
+    function shellFunctionName(agent: any) {
+      return 'sandbox-' + String(agent.shortcut || agent.key || 'agent')
+    }
+
+    function shellShortcutSnippet(state: any) {
+      var shellType = shellTypeValue(state.shellType)
+      var cfg = shellOption(shellType)
+      var agents = state.agents && state.agents.length ? state.agents : [AGENTS[0]]
+      var l: string[] = []
+
+      if (shellType === 'fish') {
+        l.push('# ' + cfg.config)
+        l.push('set -gx SAFEHOUSE_POLICY "$HOME/.config/agent-safehouse/my-safehouse.sb"')
+        l.push('')
+        l.push('# Update SAFEHOUSE_POLICY if you saved the generated policy elsewhere.')
+        l.push('')
+        agents.forEach(function (agent: any) {
+          var envName = agent.shellEnvFishName
+          var envValue = agent.shellEnvFishValue
+          l.push('function ' + shellFunctionName(agent))
+          if (envName && envValue) l.push('    set -lx ' + envName + ' ' + shellSingleQuote(envValue))
+          l.push('    sandbox-exec -f "$SAFEHOUSE_POLICY" -- ' + (agent.shellCommand || agent.command) + ' $argv')
+          l.push('end')
+          l.push('')
+        })
+      } else {
+        l.push('# ' + cfg.config)
+        l.push('SAFEHOUSE_POLICY="$HOME/.config/agent-safehouse/my-safehouse.sb"')
+        l.push('')
+        l.push('# Update SAFEHOUSE_POLICY if you saved the generated policy elsewhere.')
+        l.push('')
+        agents.forEach(function (agent: any) {
+          var prefix = agent.shellEnvPosix ? agent.shellEnvPosix + ' ' : ''
+          l.push(shellFunctionName(agent) + '() { ' + prefix + 'sandbox-exec -f "$SAFEHOUSE_POLICY" -- ' + (agent.shellCommand || agent.command) + ' "$@"; }')
+        })
+      }
+
+      return l.join('\n').replace(/\n{3,}/g, '\n\n')
     }
 
     function emitAnc(path: string, label: string) {
@@ -308,6 +366,7 @@ onMounted(() => {
 
       var selAgents = selected(AGENTS, 'agent-')
       var selInts = selected(INTEGRATIONS, 'integration-')
+      var shellType = shellTypeValue(el.shellType.value)
       var byKey: Record<string, boolean> = {}
       selInts.forEach(function (i) { byKey[i.key] = true })
       var electron = !!byKey['electron']
@@ -348,6 +407,7 @@ onMounted(() => {
         browserNativeMessaging: !!byKey['browser-native-messaging'],
         shellStartup: !!byKey['shell-init'],
         wideRead: !!byKey['wide-read'],
+        shellType: shellType,
         errors: errors,
       }
     }
@@ -383,6 +443,7 @@ onMounted(() => {
         browserNativeMessaging: state.browserNativeMessaging,
         shellStartup: state.shellStartup,
         wideRead: state.wideRead,
+        shellType: state.shellType,
       }
     }
 
@@ -587,6 +648,7 @@ onMounted(() => {
 
       if (state.append) setFeedback(el.appendFeedback, 'Advanced overlay will be appended at the end of the generated policy.', 'warn')
       else setFeedback(el.appendFeedback, 'No overlay set.', 'ok')
+      setFeedback(el.shellFeedback, 'Shortcut snippet targets ' + shellOption(state.shellType).config + ' using ' + shellOption(state.shellType).label + ' syntax.', 'ok')
 
       var agentNames = state.agents.map(function (a: any) { return a.label })
       el.summaryAgents.textContent = agentNames.length
@@ -611,6 +673,7 @@ onMounted(() => {
 
       setIssues(state.errors)
       el.summaryCommand.textContent = buildSafehouseCommand(state)
+      el.summaryShell.textContent = shellOption(state.shellType).label + ' -> ' + shellOption(state.shellType).config
     }
 
     async function buildPolicy(s: any) {
@@ -698,7 +761,7 @@ onMounted(() => {
       setStatus('Loading and composing profile modules...')
       try {
         var s = collect(); var out = await buildPolicy(s)
-        lastPolicy = out.policy; el.policy.textContent = out.policy; el.command.textContent = cmdSnippet(s)
+        lastPolicy = out.policy; el.policy.textContent = out.policy; el.command.textContent = cmdSnippet(s); el.shellOutput.textContent = shellShortcutSnippet(s)
         el.moduleCount.textContent = 'Included modules: ' + out.included.length
         el.copy.disabled = false; el.dl.disabled = false; el.launchers.disabled = false
         setStatus('Generated policy from ' + out.included.length + ' modules.', 'success')
@@ -774,6 +837,11 @@ onMounted(() => {
     ;[el.home, el.workdir, el.gitSshKey, el.ro, el.rw, el.append].forEach(function (node) {
       node.addEventListener('input', function () { markSectionChanged(4); updateLiveUi() })
       node.addEventListener('blur', updateLiveUi)
+    })
+    el.shellType.addEventListener('change', function () {
+      markSectionChanged(5)
+      updateLiveUi()
+      if (lastPolicy) el.shellOutput.textContent = shellShortcutSnippet(buildLiveState())
     })
 
     el.gen.addEventListener('click', generate)
@@ -969,6 +1037,22 @@ onMounted(() => {
             <h3 class="pb-out-title">Command helper snippet</h3>
             <pre><code id="pb-command-output"># Choose options, then click "Generate policy".</code></pre>
 
+            <div class="pb-fs-group pb-shell-config-group">
+              <h3 class="pb-subhead">Shell shortcut snippet</h3>
+              <p class="pb-hint">Choose the shell syntax for the persistent helper functions below.</p>
+              <div class="pb-field">
+                <label for="pb-shell-type">Shell config target</label>
+                <select id="pb-shell-type">
+                  <option value="posix">zsh / bash (~/.zshrc or ~/.bashrc)</option>
+                  <option value="fish">fish (~/.config/fish/config.fish)</option>
+                </select>
+                <p id="pb-shell-feedback" class="pb-field-feedback">Shortcut snippet targets ~/.zshrc or ~/.bashrc using zsh / bash syntax.</p>
+              </div>
+            </div>
+
+            <h3 class="pb-out-title">Shell shortcut snippet</h3>
+            <pre><code id="pb-shell-output"># Choose a shell target above, then click "Generate policy".</code></pre>
+
             <h3 class="pb-out-title">Generated policy preview</h3>
             <pre><code id="pb-policy-output">;; Policy output will appear here.</code></pre>
           </div>
@@ -1005,6 +1089,11 @@ onMounted(() => {
         <div class="pb-summary-block">
           <h3>Command preview</h3>
           <pre class="pb-summary-pre"><code id="pb-summary-command">safehouse --stdout -- &lt;agent-command&gt;</code></pre>
+        </div>
+
+        <div class="pb-summary-block">
+          <h3>Shell snippet</h3>
+          <p id="pb-summary-shell">zsh / bash -&gt; ~/.zshrc or ~/.bashrc</p>
         </div>
       </aside>
     </div>
@@ -1077,6 +1166,7 @@ onMounted(() => {
 .pb-fs-guide strong { color: var(--vp-c-text-1); font-weight: 600; }
 .pb-fs-group { border: 1px solid var(--vp-c-border); border-radius: 10px; padding: 12px; background: var(--vp-c-bg); margin-bottom: 10px; }
 .pb-fs-group-advanced { border-color: rgba(239, 83, 80, 0.42); background: rgba(239, 83, 80, 0.08); }
+.pb-shell-config-group { margin-top: 16px; }
 .pb-subhead { margin: 0 0 8px; color: var(--vp-c-text-1); font-size: 0.9rem; font-weight: 700; border: 0; padding: 0; }
 
 /* Fields */
@@ -1084,9 +1174,9 @@ onMounted(() => {
 .pb-field { display: flex; flex-direction: column; gap: 6px; }
 .pb-field.pb-full { grid-column: 1 / -1; }
 .pb-field label { font-family: var(--vp-font-family-mono); font-size: 0.62rem; letter-spacing: 1.2px; text-transform: uppercase; color: var(--vp-c-text-2); font-weight: 700; }
-.pb-field input, .pb-field textarea { width: 100%; background: var(--vp-c-bg); border: 1px solid var(--vp-c-border); border-radius: 8px; color: var(--vp-c-text-1); font-family: var(--vp-font-family-mono); font-size: 0.78rem; padding: 10px 12px; line-height: 1.5; }
+.pb-field input, .pb-field textarea, .pb-field select { width: 100%; background: var(--vp-c-bg); border: 1px solid var(--vp-c-border); border-radius: 8px; color: var(--vp-c-text-1); font-family: var(--vp-font-family-mono); font-size: 0.78rem; padding: 10px 12px; line-height: 1.5; }
 .pb-field textarea { min-height: 92px; resize: vertical; }
-.pb-field input:focus, .pb-field textarea:focus { outline: none; border-color: #a67c00; box-shadow: 0 0 0 2px rgba(212,160,23,0.12); }
+.pb-field input:focus, .pb-field textarea:focus, .pb-field select:focus { outline: none; border-color: #a67c00; box-shadow: 0 0 0 2px rgba(212,160,23,0.12); }
 .pb-fields-fs .pb-field textarea { min-height: 120px; }
 .pb-field-feedback { margin: 0; color: var(--vp-c-text-2); font-size: 0.72rem; line-height: 1.45; }
 .pb-field-feedback.is-ok { color: #4ade80; }

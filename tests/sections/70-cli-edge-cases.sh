@@ -82,6 +82,9 @@ run_section_cli_edge_cases() {
   assert_command_fails "--enable shell-startup is rejected (renamed to shell-init)" "$GENERATOR" --output "${TEST_CWD}/policy-enable-shell-startup-invalid.sb" --enable shell-startup
   assert_command_succeeds "--enable shell-init parses as separate argument form" "$GENERATOR" --output "$policy_enable_shell_init" --enable shell-init
   assert_policy_contains "$policy_enable_shell_init" "--enable shell-init includes shell init integration marker" "#safehouse-test-id:shell-init-integration#"
+  assert_policy_contains "$policy_enable_shell_init" "--enable shell-init includes fish config directory grant" "(home-literal \"/.config/fish\")"
+  assert_policy_contains "$policy_enable_shell_init" "--enable shell-init includes fish user config grant" "(home-literal \"/.config/fish/config.fish\")"
+  assert_policy_contains "$policy_enable_shell_init" "--enable shell-init includes fish universal variables grant" "(home-literal \"/.config/fish/fish_variables\")"
   assert_policy_contains "$policy_enable_shell_init" "--enable shell-init includes shell startup file grants" "(home-literal \"/.zshenv\")"
   assert_command_succeeds "--enable process-control parses as separate argument form" "$GENERATOR" --output "$policy_enable_process_control" --enable process-control
   assert_policy_contains "$policy_enable_process_control" "--enable process-control includes Process Control integration marker" ";; Integration: Process Control"
@@ -192,10 +195,10 @@ run_section_cli_edge_cases() {
   env_file_missing="${TEST_CWD}/safehouse-env-missing.env"
   assert_command_fails "--env=FILE fails when file does not exist" "$SAFEHOUSE" --env="$env_file_missing" -- /usr/bin/true
   assert_command_succeeds "safehouse sanitizes non-allowlisted environment vars by default" /usr/bin/env SAFEHOUSE_TEST_SECRET="safehouse-secret" "$SAFEHOUSE" -- /bin/sh -c '[ -z "${SAFEHOUSE_TEST_SECRET+x}" ] && [ -n "${HOME:-}" ] && [ -n "${PATH:-}" ] && [ -n "${SHELL:-}" ] && [ -n "${TMPDIR:-}" ]'
+  assert_command_succeeds "safehouse appends common macOS dev paths to sanitized PATH" /usr/bin/env -i HOME="$HOME" USER="$USER" LOGNAME="$LOGNAME" TMPDIR="${TMPDIR:-/tmp}" PATH="/usr/bin:/bin:/usr/sbin:/sbin" "$SAFEHOUSE" -- /bin/sh -c 'case ":${PATH}:" in *:/usr/local/bin:*) : ;; *) exit 1 ;; esac && case ":${PATH}:" in *:/opt/homebrew/bin:*) : ;; *) exit 1 ;; esac && case ":${PATH}:" in *:"${HOME}/.local/bin":*) : ;; *) exit 1 ;; esac'
   assert_command_succeeds "--env preserves inherited environment vars for wrapped commands" /usr/bin/env SAFEHOUSE_TEST_SECRET="safehouse-secret" "$SAFEHOUSE" --env -- /bin/sh -c '[ "${SAFEHOUSE_TEST_SECRET:-}" = "safehouse-secret" ]'
   assert_command_succeeds "--env parses after command token before -- separator" /usr/bin/env SAFEHOUSE_TEST_SECRET="safehouse-secret" "$SAFEHOUSE" /bin/sh --env -c '[ "${SAFEHOUSE_TEST_SECRET:-}" = "safehouse-secret" ]'
   assert_command_fails "--env cannot be combined with --env-pass" "$SAFEHOUSE" --env --env-pass=SAFEHOUSE_TEST_SECRET -- /usr/bin/true
-  assert_command_succeeds "safehouse appends common macOS dev paths to sanitized PATH" /usr/bin/env -i HOME="$HOME" USER="$USER" LOGNAME="$LOGNAME" TMPDIR="${TMPDIR:-/tmp}" PATH="/usr/bin:/bin:/usr/sbin:/sbin" "$SAFEHOUSE" -- /bin/sh -c 'case ":${PATH}:" in *:/usr/local/bin:*) : ;; *) exit 1 ;; esac && case ":${PATH}:" in *:/opt/homebrew/bin:*) : ;; *) exit 1 ;; esac && case ":${PATH}:" in *:"${HOME}/.local/bin":*) : ;; *) exit 1 ;; esac'
   assert_command_fails "--env=FILE cannot be combined with --env" "$SAFEHOUSE" --env=./agent.env --env -- /usr/bin/true
 
   assert_command_succeeds "--env-pass skips requested host variable when it is missing" "$SAFEHOUSE" --env-pass=SAFEHOUSE_TEST_PASS_MISSING -- /bin/sh -c '[ -z "${SAFEHOUSE_TEST_PASS_MISSING+x}" ] && [ -n "${PATH:-}" ]'

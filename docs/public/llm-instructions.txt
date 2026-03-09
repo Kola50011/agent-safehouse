@@ -53,7 +53,11 @@ command -v claude amp codex aider cursor gemini 2>/dev/null
 
 Map to `60-agents/*.sb` profiles. Always include the agent profile for whichever agent is running this prompt (it is sandboxing itself).
 
-**Shell** — check `basename "$SHELL"` (almost always `zsh` on modern macOS).
+**Shell** — check `basename "$SHELL"` and map it to the right config file and syntax:
+- `zsh` → `~/.zshrc`
+- `bash` → `~/.bashrc`
+- `fish` → `~/.config/fish/config.fish` with `function ... end`, `set -gx`, and `$argv` instead of POSIX shell syntax.
+If you show more than one shell variant, label the blocks explicitly as `POSIX shells (zsh/bash)` and `fish`.
 
 **Existing dotfiles** — check which common dotfiles exist to decide read-only grants:
 
@@ -132,12 +136,23 @@ Do NOT use `awk -v` with multi-line strings (it breaks). Use temp files and `sed
 
 #### 4c. Shell aliases
 
-Append to `~/.zshrc` (or the detected shell's rc file). Create a function for each detected agent:
+Append to the detected shell's config file. Create a function for each detected agent, and match the shell syntax to the detected shell. If you show both variants, label them explicitly:
 
 ```bash
 # Sandbox shortcuts
 sandbox-claude() { ~/.config/sandbox-exec/run-sandboxed.sh claude "$@" }
 sandbox-codex()  { ~/.config/sandbox-exec/run-sandboxed.sh codex "$@" }
+```
+
+```fish
+# Sandbox shortcuts
+function sandbox-claude
+    ~/.config/sandbox-exec/run-sandboxed.sh claude $argv
+end
+
+function sandbox-codex
+    ~/.config/sandbox-exec/run-sandboxed.sh codex $argv
+end
 ```
 
 Use `sandbox-<agent>` as the default naming convention, but if the user requests a custom prefix (e.g., `safe-`, `custom-`), use that instead.
@@ -149,7 +164,7 @@ Print a short markdown table summarizing each access grant, its mode (RO/RW/Deni
 #### 4e. Verification checklist
 
 ```
-1. source ~/.zshrc
+1. Reload the shell config you edited (`source ~/.zshrc`, `source ~/.bashrc`, or `source ~/.config/fish/config.fish`)
 2. cd <project-dir> && sandbox-claude
 3. Verify: agent can read/write project files
 4. Verify: agent cannot read ~/Desktop, ~/Documents, ~/Downloads

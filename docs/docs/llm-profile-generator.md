@@ -62,7 +62,7 @@ After you have enough information, produce:
 - A complete `.sb` profile file.
 - A short explanation of each access grant.
 - A wrapper script, if helpful, that resolves the current working directory and launches `sandbox-exec` with the generated profile.
-- A shell config snippet for my shell (for example `~/.zshrc`) that adds shortcuts for my preferred agents.
+- A clearly labeled shell config snippet for my shell (for example `~/.zshrc`, `~/.bashrc`, or `~/.config/fish/config.fish`) that adds shortcuts for my preferred agents.
 - A short install and verification checklist.
 
 Requirements:
@@ -95,6 +95,6 @@ The best result is usually:
 
 - one machine-local profile file at `~/.config/sandbox-exec.profile`
 - one small wrapper script that grants the current project directory
-- one shell snippet that adds agent-specific shortcuts in `~/.zshrc`, `~/.bashrc`, or the user's active shell config
+- one clearly labeled shell snippet that adds agent-specific shortcuts in `~/.zshrc`, `~/.bashrc`, `~/.config/fish/config.fish`, or the user's active shell config
 
 That keeps the durable policy in one place while still making everyday agent launches convenient.

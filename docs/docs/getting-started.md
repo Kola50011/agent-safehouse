@@ -32,6 +32,8 @@ EOF2
 
 ## Shell Functions (Recommended)
 
+POSIX shells (`zsh` / `bash`):
+
 ```bash
 # ~/.bashrc or ~/.zshrc
 SAFEHOUSE_APPEND_PROFILE="$HOME/.config/agent-safehouse/local-overrides.sb"
@@ -47,6 +49,59 @@ gemini()   { NO_BROWSER=true safeenv gemini --yolo "$@"; }
 goose()    { safe goose "$@"; }
 kilo()     { safe kilo "$@"; }
 pi()       { safe pi "$@"; }
+```
+
+`fish`:
+
+```fish
+# ~/.config/fish/config.fish
+set -gx SAFEHOUSE_APPEND_PROFILE "$HOME/.config/agent-safehouse/local-overrides.sb"
+
+function safe
+    safehouse --add-dirs-ro="$HOME/mywork" --append-profile="$SAFEHOUSE_APPEND_PROFILE" $argv
+end
+
+function safeenv
+    safe --env $argv
+end
+
+function safekeys
+    safe --env-pass=OPENAI_API_KEY,ANTHROPIC_API_KEY $argv
+end
+
+function claude
+    safe claude --dangerously-skip-permissions $argv
+end
+
+function codex
+    safe codex --dangerously-bypass-approvals-and-sandbox $argv
+end
+
+function amp
+    safe amp --dangerously-allow-all $argv
+end
+
+function opencode
+    set -lx OPENCODE_PERMISSION '{"*":"allow"}'
+    safeenv opencode $argv
+end
+
+function gemini
+    set -lx NO_BROWSER true
+    safeenv gemini --yolo $argv
+end
+
+function goose
+    safe goose $argv
+end
+
+function kilo
+    safe kilo $argv
+end
+
+function pi
+    safe pi $argv
+end
 ```
 
 Run the real unsandboxed binary with `command <agent>` when needed.

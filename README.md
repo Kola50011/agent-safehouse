@@ -31,8 +31,10 @@ If you keep shared repos, caches, or team folders in machine-specific locations,
 
 This lets you define your own sane defaults once and reuse them from `claude`, `codex`, `amp`, or app launchers:
 
+POSIX shells (`zsh` / `bash`):
+
 ```bash
-# ~/.zshrc
+# ~/.zshrc or ~/.bashrc
 export SAFEHOUSE_APPEND_PROFILE="$HOME/.config/agent-safehouse/local-overrides.sb"
 
 safe() {
@@ -43,6 +45,24 @@ safe() {
 }
 
 safe-claude() { safe claude --dangerously-skip-permissions "$@" }
+```
+
+`fish`:
+
+```fish
+# ~/.config/fish/config.fish
+set -gx SAFEHOUSE_APPEND_PROFILE "$HOME/.config/agent-safehouse/local-overrides.sb"
+
+function safe
+    safehouse \
+      --add-dirs-ro="$HOME/server" \
+      --append-profile="$SAFEHOUSE_APPEND_PROFILE" \
+      $argv
+end
+
+function safe-claude
+    safe claude --dangerously-skip-permissions $argv
+end
 ```
 
 Example machine-local policy file:
