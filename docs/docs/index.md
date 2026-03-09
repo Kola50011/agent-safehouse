@@ -8,8 +8,9 @@ If you are new, follow this order:
 2. [Isolation Models](./isolation-models.md)
 3. [Default Assumptions](./default-assumptions.md)
 4. [Getting Started](./getting-started.md)
-5. [Usage](./usage.md)
-6. [Options](./options.md)
+5. [Generate a Custom Profile with an LLM](./llm-profile-generator.md)
+6. [Usage](./usage.md)
+7. [Options](./options.md)
 
 Then go deeper as needed:
 

@@ -32,6 +32,7 @@ export default defineConfig({
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/docs/' },
+      { text: 'LLM Instructions', link: '/llm-instructions.txt' },
       { text: 'Policy Builder', link: '/policy-builder' },
     ],
 
@@ -45,6 +46,7 @@ export default defineConfig({
             { text: 'Isolation Models', link: '/docs/isolation-models' },
             { text: 'Default Assumptions', link: '/docs/default-assumptions' },
             { text: 'Getting Started', link: '/docs/getting-started' },
+            { text: 'Generate a Custom Profile with an LLM', link: '/docs/llm-profile-generator' },
             { text: 'Usage', link: '/docs/usage' },
             { text: 'Options', link: '/docs/options' },
           ],

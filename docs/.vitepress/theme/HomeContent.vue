@@ -305,6 +305,17 @@ const accessRows = [
       </div>
     </div>
   </section>
+
+  <section class="home-section">
+    <div class="home-container">
+      <h2 class="section-title">Generate your own profile with an LLM</h2>
+      <p class="section-sub">Use a ready-made prompt that tells Claude, Codex, Gemini, or another model to inspect the real Safehouse profile templates, ask about your home directory and toolchain, and generate a least-privilege `sandbox-exec` profile for your setup.</p>
+      <div class="cta-card">
+        <p class="muted-text">The guide also tells the LLM to ask about global dotfiles, suggest a durable profile path like <code>~/.config/sandbox-exec.profile</code>, offer a wrapper that grants the current working directory, and add shell shortcuts for your preferred agents.</p>
+        <a class="cta-link" href="/llm-instructions.txt">Open the copy-paste prompt</a>
+      </div>
+    </div>
+  </section>
 </template>
 
 <style scoped>
@@ -363,6 +374,38 @@ const accessRows = [
   font-size: 0.94rem;
   line-height: 1.7;
   margin-top: 16px;
+}
+.muted-text code {
+  font-family: var(--vp-font-family-mono);
+  font-size: 0.84rem;
+}
+
+.cta-card {
+  border: 1px solid var(--vp-c-border);
+  border-radius: 12px;
+  padding: 22px 24px;
+  background: linear-gradient(180deg, var(--vp-c-bg-alt), rgba(212, 160, 23, 0.05));
+}
+
+.cta-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 11px 16px;
+  border-radius: 8px;
+  border: 1px solid rgba(212, 160, 23, 0.28);
+  background: rgba(212, 160, 23, 0.08);
+  color: var(--vp-c-text-1);
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease;
+}
+
+.cta-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(212, 160, 23, 0.45);
+  background: rgba(212, 160, 23, 0.12);
 }
 
 /* ---- Struck / Scribble ---- */
