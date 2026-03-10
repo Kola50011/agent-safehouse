@@ -267,7 +267,7 @@ emit_embedded_policy_template() {
 )
 
 ;; Generated HOME ancestor metadata access for home-scoped runtime/toolchain discovery.
-;; #safehouse-test-id:home-ancestor-metadata# Metadata-only ancestor directory literals for HOME path: /home/runner/work/agent-safehouse/agent-safehouse/dist/agent-safehouse-static-template/home
+;; #safehouse-test-id:home-ancestor-metadata# Metadata-only ancestor directory literals for HOME path: /Users/eugene/server/agent-safehouse/dist/agent-safehouse-static-template/home
 ;;
 ;; Why file-read-metadata on HOME ancestors:
 ;; Some macOS runtimes probe HOME-scoped toolchain paths (for example ~/Library/Java)
@@ -276,14 +276,13 @@ emit_embedded_policy_template() {
 ;; grants can match. Keep this metadata-only to avoid broad read visibility into HOME.
 (allow file-read-metadata
     (literal "/")
-    (literal "/home")
-    (literal "/home/runner")
-    (literal "/home/runner/work")
-    (literal "/home/runner/work/agent-safehouse")
-    (literal "/home/runner/work/agent-safehouse/agent-safehouse")
-    (literal "/home/runner/work/agent-safehouse/agent-safehouse/dist")
-    (literal "/home/runner/work/agent-safehouse/agent-safehouse/dist/agent-safehouse-static-template")
-    (literal "/home/runner/work/agent-safehouse/agent-safehouse/dist/agent-safehouse-static-template/home")
+    (literal "/Users")
+    (literal "/Users/eugene")
+    (literal "/Users/eugene/server")
+    (literal "/Users/eugene/server/agent-safehouse")
+    (literal "/Users/eugene/server/agent-safehouse/dist")
+    (literal "/Users/eugene/server/agent-safehouse/dist/agent-safehouse-static-template")
+    (literal "/Users/eugene/server/agent-safehouse/dist/agent-safehouse-static-template/home")
 )
 
 ;; ---------------------------------------------------------------------------
@@ -377,8 +376,15 @@ emit_embedded_policy_template() {
 
 ;; Includes common Maven/Gradle/SBT/Coursier and Java runtime manager locations.
 
-(allow file-read* file-write*
+;; JDK/JRE bundles are read-only; the agent needs to discover and execute the
+;; JVM but must not modify system or user JDK installations.
+(allow file-read*
     (subpath "/Library/Java")                                         ;; System-wide JDK/JRE bundles live here on macOS and are probed by /usr/bin/java.
+    (home-subpath "/Library/Java")                                    ;; User-local JDK bundles under ~/Library/Java let /usr/bin/java resolve a runtime without system installs.
+)
+
+;; User-local toolchain state (caches, configs, version managers) is read-write.
+(allow file-read* file-write*
     (home-subpath "/.m2")
     (home-subpath "/.gradle")
     (home-subpath "/.ivy2")
@@ -387,7 +393,6 @@ emit_embedded_policy_template() {
     (home-subpath "/.sdkman")
     (home-subpath "/.cache/coursier")
     (home-subpath "/.coursier")
-    (home-subpath "/Library/Java")                                    ;; User-local JDK bundles under ~/Library/Java let /usr/bin/java resolve a runtime without system installs.
     (home-subpath "/Library/Application Support/Coursier")
     (home-subpath "/Library/Caches/Coursier")
     (home-subpath "/.java")
