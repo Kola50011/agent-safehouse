@@ -203,7 +203,8 @@ class AgentSafehouse < Formula
 
   def install
     odie "Agent Safehouse requires macOS" unless OS.mac?
-    bin.install "safehouse.sh" => "safehouse"
+    artifact_path = build.head? ? "dist/safehouse.sh" : "safehouse.sh"
+    bin.install artifact_path => "safehouse"
   end
 
   test do
