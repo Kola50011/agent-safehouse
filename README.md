@@ -8,6 +8,23 @@ Sandbox your LLM coding agents on macOS so they can only access the files and in
 
 Agent Safehouse uses `sandbox-exec` with composable policy profiles and a deny-first model. It supports major coding agents and app-hosted agent workflows while keeping normal development usage practical.
 
+## Install
+
+Homebrew:
+
+```bash
+brew install eugene1g/safehouse/agent-safehouse
+```
+
+Standalone script:
+
+```bash
+mkdir -p ~/.local/bin
+curl -fsSL https://raw.githubusercontent.com/eugene1g/agent-safehouse/main/dist/safehouse.sh \
+  -o ~/.local/bin/safehouse
+chmod +x ~/.local/bin/safehouse
+```
+
 ## Philosophy
 
 Agent Safehouse is designed around practical least privilege:

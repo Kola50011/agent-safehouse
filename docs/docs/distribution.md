@@ -47,3 +47,9 @@ The dist binary is self-contained and embeds policy modules as plain text.
 ## GitHub Releases
 
 See `RELEASE.md` for the canonical local release and tagged-asset workflow.
+
+Stable releases are also published to Homebrew:
+
+```bash
+brew install eugene1g/safehouse/agent-safehouse
+```

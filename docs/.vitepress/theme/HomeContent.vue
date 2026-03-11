@@ -282,7 +282,7 @@ const accessRows = [
   <section class="home-section">
     <div class="home-container">
       <h2 class="section-title">Getting started</h2>
-      <p class="section-sub">Download a single shell script, make it executable, and run your agent inside it. No build step, no dependencies — just Bash and macOS.</p>
+      <p class="section-sub">Install with Homebrew or download the single shell script, then run your agent inside it. No build step, no dependencies beyond Bash and macOS.</p>
       <div class="code-block">
         <GettingStartedSnippet />
       </div>

@@ -2,6 +2,14 @@
 
 ## Install
 
+Homebrew:
+
+```bash
+brew install eugene1g/safehouse/agent-safehouse
+```
+
+Standalone script:
+
 ```bash
 mkdir -p ~/.local/bin
 curl -fsSL https://raw.githubusercontent.com/eugene1g/agent-safehouse/main/dist/safehouse.sh \
