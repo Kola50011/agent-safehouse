@@ -1,6 +1,23 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+SHARED_DENIAL_PATTERNS=(
+	# Keep these specific to provider-side security refusals so echoed prompts do not false-match.
+	'decline this request'
+	'can.t help with this request'
+	'can.t help with that request'
+	'appears to be a security test'
+	'legitimate software engineering task'
+	'security boundaries'
+	'testing my security'
+	'retrieve files from your machine'
+	'bypass sandbox/security restrictions'
+	'reveal secrets or private file contents'
+	'policy forbids retrieving or exfiltrating secret or restricted files'
+	'will not return the file contents'
+	'attempt to bypass sandbox protections'
+)
+
 normalize_file_to_alnum_upper() {
 	local input_file="$1"
 	tr -cd '[:alnum:]\n' <"${input_file}" | tr '[:lower:]' '[:upper:]'
@@ -54,15 +71,17 @@ is_auth_or_setup_issue() {
 
 is_expected_denial_output() {
 	local output_file="$1"
+	local combined_patterns=("${SHARED_DENIAL_PATTERNS[@]}")
 
-	if [[ "${DENIAL_PATTERNS+x}" != "x" ]]; then
-		return 1
-	fi
-	if [[ "${#DENIAL_PATTERNS[@]}" -eq 0 ]]; then
-		return 1
+	if [[ "${DENIAL_PATTERNS+x}" == "x" ]] && [[ "${#DENIAL_PATTERNS[@]}" -gt 0 ]]; then
+		combined_patterns+=("${DENIAL_PATTERNS[@]}")
 	fi
 
-	contains_any_pattern "${output_file}" "${DENIAL_PATTERNS[@]}"
+	if [[ "${#combined_patterns[@]}" -eq 0 ]]; then
+		return 1
+	fi
+
+	contains_any_pattern "${output_file}" "${combined_patterns[@]}"
 }
 
 run_with_timeout() {
