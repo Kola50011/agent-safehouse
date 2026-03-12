@@ -10,6 +10,17 @@
 
 - No profiles changed.
 
+## [0.3.1] - 2026-03-12
+
+### Bug Fixes
+
+- Default sanitized execution now preserves common non-secret proxy, TLS, and browser-control environment variables, including `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`, lowercase proxy variants, `NODE_EXTRA_CA_CERTS`, and `NO_BROWSER`.
+- Tightened Java toolchain sandboxing so system `/Library/Java` runtimes stay read-only while per-user `~/Library/Java` installs remain writable, preventing accidental writes to globally installed JDKs.
+
+### Changed Sandboxing Profiles
+
+- [`profiles/30-toolchains/java.sb`](https://github.com/eugene1g/agent-safehouse/blob/v0.3.1/profiles/30-toolchains/java.sb): Split system and user Java grants so globally installed runtimes are read-only while per-user Java state stays writable.
+
 ## [0.3.0] - 2026-03-12
 
 ### Features
