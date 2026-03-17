@@ -51,25 +51,32 @@ sft_setup_linked_git_worktree_fixture() {
   sft_assert_path_absent "$blocked_file"
 }
 
-@test "[EXECUTION] git root is auto-detected when invoked from a nested repo path" {
+@test "[EXECUTION] nested repo paths stay constrained to the invocation directory by default" {
   sft_require_cmd_or_skip git
 
   local repo_root nested_dir repo_file nested_file blocked_file
-  repo_root="$(sft_workspace_path "repo")" || return 1
-  nested_dir="${repo_root}/nested/work"
-  repo_file="${repo_root}/git-root-ok.txt"
-  nested_file="${nested_dir}/git-subdir-ok.txt"
+  repo_root="$(sft_external_dir "repo")" || return 1
+  nested_dir="${repo_root}/test1"
+  repo_file="${repo_root}/repo-root-blocked.txt"
+  nested_file="${nested_dir}/hello.txt"
   blocked_file="$(sft_external_path "git-root-blocked" "blocked.txt")" || return 1
 
   mkdir -p "$nested_dir"
   /bin/sh -c "cd '$repo_root' && git init -q" || return 1
 
-  safehouse_ok_in_dir "$nested_dir" -- /bin/sh -c "touch '$repo_file' '$nested_file'"
-  sft_assert_file_exists "$repo_file"
+  safehouse_ok_in_dir "$nested_dir" -- /bin/sh -c "printf '%s' hello > '$nested_file'"
   sft_assert_file_exists "$nested_file"
+  sft_assert_file_content "$nested_file" "hello"
+
+  safehouse_denied_in_dir "$nested_dir" -- /bin/sh -c "touch '$repo_file'"
+  sft_assert_path_absent "$repo_file"
 
   safehouse_denied_in_dir "$nested_dir" -- /bin/sh -c "touch '$blocked_file'"
   sft_assert_path_absent "$blocked_file"
+
+  run safehouse_ok_in_dir "$nested_dir" -- git status --short
+  [ "$status" -ne 0 ]
+  sft_assert_contains "$output" "not a git repository"
 }
 
 @test "[EXECUTION] linked git worktrees can write shared git metadata without manual extra grants" { # https://github.com/eugene1g/agent-safehouse/issues/37
@@ -92,4 +99,17 @@ sft_setup_linked_git_worktree_fixture() {
 
   safehouse_denied_in_dir "$git_linked_worktree" -- /bin/sh -c "touch '$blocked_file'"
   sft_assert_path_absent "$blocked_file"
+}
+
+@test "[EXECUTION] nested linked worktree paths stay constrained to the invocation directory by default" {
+  local nested_dir
+
+  sft_setup_linked_git_worktree_fixture || return 1
+  nested_dir="${git_linked_worktree}/nested/work"
+
+  mkdir -p "$nested_dir"
+
+  run safehouse_ok_in_dir "$nested_dir" -- git status --short
+  [ "$status" -ne 0 ]
+  sft_assert_contains "$output" "not a git repository"
 }

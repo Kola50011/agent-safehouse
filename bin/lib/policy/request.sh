@@ -288,7 +288,7 @@ policy_request_set_effective_workdir_from_value() {
 }
 
 policy_request_resolve_effective_workdir() {
-  local env_workdir_value="" git_root
+  local env_workdir_value=""
 
   if [[ "$cli_policy_workdir_set" -eq 1 ]]; then
     policy_request_set_effective_workdir_from_value \
@@ -312,14 +312,8 @@ policy_request_resolve_effective_workdir() {
     return $?
   fi
 
-  git_root="$(safehouse_find_git_root "$policy_req_invocation_cwd" || true)"
-  if [[ -n "$git_root" ]]; then
-    policy_req_effective_workdir="$(safehouse_normalize_abs_path "$git_root")" || return 1
-    policy_req_effective_workdir_source="auto-git-root"
-  else
-    policy_req_effective_workdir="$policy_req_invocation_cwd"
-    policy_req_effective_workdir_source="auto-cwd"
-  fi
+  policy_req_effective_workdir="$policy_req_invocation_cwd"
+  policy_req_effective_workdir_source="auto-cwd"
 }
 
 policy_request_resolve_effective_workdir_git_root() {
@@ -328,11 +322,6 @@ policy_request_resolve_effective_workdir_git_root() {
   policy_req_effective_workdir_git_root=""
 
   if [[ -z "$policy_req_effective_workdir" ]]; then
-    return 0
-  fi
-
-  if [[ "$policy_req_effective_workdir_source" == "auto-git-root" ]]; then
-    policy_req_effective_workdir_git_root="$policy_req_effective_workdir"
     return 0
   fi
 

@@ -82,7 +82,7 @@ Produce all of these in one response:
 If you generate a wrapper script, make it behave like this:
 
 - accept an optional `--workdir=/path`
-- resolve effective workdir as: explicit flag, then `git rev-parse --show-toplevel`, then `pwd -P`
+- resolve effective workdir as: explicit flag, then `pwd -P`
 - generate the ancestor `literal` rules for that workdir at launch time
 - generate the workdir read/write rules at launch time
 - if the selected workdir is a git worktree root, snapshot the existing linked worktree paths at launch time and emit read-only grants for those sibling worktrees directly into the generated policy

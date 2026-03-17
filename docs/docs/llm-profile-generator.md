@@ -88,7 +88,7 @@ Requirements:
 
 If a wrapper script is generated, prefer behavior like this:
 - Detect the current working directory with `pwd -P`.
-- Optionally prefer `git rev-parse --show-toplevel` when inside a git repo.
+- Prefer the invocation directory (`pwd -P`) as the default workdir.
 - Generate the workdir ancestor literals and workdir read/write rules directly at launch time, then append them to a temporary policy file.
 - Keep the script portable and easy to edit.
 
