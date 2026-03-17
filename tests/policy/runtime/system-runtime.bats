@@ -22,6 +22,36 @@ load ../../test_helper.bash
   sft_assert_not_contains "$home_block" "(subpath \"$HOME\")"
 }
 
+@test "[POLICY-ONLY] default profile emits resolved read-only grants for symlinked built-in paths" {
+  local profile resolved_resolv
+
+  sft_require_cmd_or_skip realpath
+  [ -e /private/etc/resolv.conf ] || skip "/private/etc/resolv.conf is not present"
+
+  resolved_resolv="$(realpath /private/etc/resolv.conf)"
+  [[ "$resolved_resolv" != "/private/etc/resolv.conf" ]] || skip "/private/etc/resolv.conf does not resolve away from itself on this host"
+
+  profile="$(safehouse_profile)"
+
+  sft_assert_contains "$profile" "#safehouse-test-id:resolved-built-in-path#"
+  sft_assert_contains "$profile" "/private/etc/resolv.conf -> ${resolved_resolv}"
+  sft_assert_contains "$profile" "(literal \"${resolved_resolv}\")"
+}
+
+@test "[POLICY-ONLY] default profile keeps xcode-select pointer symlinks unexpanded" {
+  local profile
+
+  [ -e /private/var/select/developer_dir ] || skip "/private/var/select/developer_dir is not present"
+  [ -e /private/var/db/xcode_select_link ] || skip "/private/var/db/xcode_select_link is not present"
+
+  profile="$(safehouse_profile)"
+
+  sft_assert_not_contains "$profile" "/private/var/select/developer_dir ->"
+  sft_assert_not_contains "$profile" "/var/select/developer_dir ->"
+  sft_assert_not_contains "$profile" "/private/var/db/xcode_select_link ->"
+  sft_assert_not_contains "$profile" "/var/db/xcode_select_link ->"
+}
+
 @test "[POLICY-ONLY] default profile includes always-on network, shared, and core integration sources" {
   local profile
 
@@ -42,6 +72,14 @@ load ../../test_helper.bash
   safehouse_ok -- /bin/ls /usr/bin
   safehouse_ok -- /bin/cat /dev/null
   safehouse_ok -- /bin/dd if=/dev/urandom bs=1 count=1
+}
+
+@test "[EXECUTION] default sandbox can read resolver config through built-in symlink-aware grants" {
+  [ -e /etc/resolv.conf ] || skip "/etc/resolv.conf is not present"
+  [ -e /private/etc/resolv.conf ] || skip "/private/etc/resolv.conf is not present"
+
+  safehouse_ok -- /bin/cat /etc/resolv.conf >/dev/null
+  safehouse_ok -- /bin/cat /private/etc/resolv.conf >/dev/null
 }
 
 @test "[EXECUTION] default sandbox gets metadata on HOME itself but no general home read access" { # https://github.com/eugene1g/agent-safehouse/issues/11
