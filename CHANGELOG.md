@@ -10,13 +10,31 @@
 
 - No profiles changed.
 
+## [0.5.1] - 2026-03-17
+
+### Upgrade Notes
+
+- No special notes.
+
 ### Bug Fixes
 
-- Built-in absolute `file-read*` paths now resolve symlink targets at policy render time, so macOS compatibility paths such as `/private/etc/resolv.conf` and `/private/etc/localtime` keep working when the real file lives elsewhere.
+- Built-in absolute `file-read*` paths now resolve macOS compatibility symlinks such as `/private/etc/resolv.conf` and `/private/etc/localtime`, while keeping `xcode-select` pointer symlinks explicit so the default sandbox does not silently inherit a host-specific full Xcode bundle.
+- `--enable=lldb` now covers versioned/full Xcode app bundles and Apple private developer frameworks needed on hosts where LLDB loads Xcode-backed developer resources instead of only Command Line Tools.
+- Bundler can now read the macOS system default gemspec catalog under `/Library/Ruby/Gems`, restoring read-only Bundler commands such as `bundle --version` inside the sandbox.
 
 ### Chores
 
-- Clarified the policy architecture, distribution, and README docs around built-in path resolution and its current scope.
+- Added regression coverage for built-in symlink-target rendering, `xcode-select` pointer exceptions, LLDB on Xcode-backed hosts, Bundler system gem reads, and file-symlink CLI grants.
+- Clarified the README and policy/distribution docs around built-in path resolution and its current scope.
+
+### Thanks
+
+- @technicalpickles surfacing the built-in symlink-resolution gap fixed in this release in [#54](https://github.com/eugene1g/agent-safehouse/issues/54).
+
+### Changed Sandboxing Profiles
+
+- [`ruby.sb`](https://github.com/eugene1g/agent-safehouse/compare/v0.5.0...v0.5.1#diff-e6c5527826f7eeab06d5ebadd9b3a6be91aa1b5c88874d651f9a60f758a1554e): Added read-only `/Library/Ruby/Gems` access so Bundler can enumerate macOS default gems without needing write access to system Ruby state.
+- [`lldb.sb`](https://github.com/eugene1g/agent-safehouse/compare/v0.5.0...v0.5.1#diff-9b1a1aee4fcd6c90b56db204faf4c05fcb1bec258503143aeb2c87d53b6dfdbd): Broadened LLDB's read-only Xcode coverage to include versioned app bundles and private developer frameworks needed when hosts select a full Xcode install.
 
 ## [0.5.0] - 2026-03-17
 
